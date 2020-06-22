@@ -5,3 +5,5 @@ download-data.R - downloads html file from Wikipedia to data directory
 wrangle-data.R - creates two derived dataset and saves as R object in rda directory
 
 analysis.R - generates two plots and saves them to the figs directory
+
+report.Rmd - generates an R Markdown report in html
