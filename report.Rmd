@@ -1,0 +1,59 @@
+---
+title: "Report for ACME"
+author: "Csaba Bakonyvari"
+date: "`r format(Sys.Date())`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+This is an imaginary situation. I analyzed the population distribution of three selected countries (Japan, Russia and the United Kingdom) by blood type for an imaginary pharmacological research.
+
+The original data was obtained from https://en.wikipedia.org/wiki/Blood_type_distribution_by_country
+
+#I am using the following libraries:
+
+```{r loading-libs, message=FALSE}
+library(tidyverse)
+library(ggplot2)
+```
+  
+#There are a couple of more row of code what I can show if I want:
+
+```{r}
+load("rda/tidy-blood-type-table.rda")
+load("rda/pop-blood-type-table.rda")
+
+country_filter <- c("Japan","Russia", "United Kingdom")
+
+filtered_tidy_blood_type <- tidy_blood_type %>% 
+  filter(Country %in% country_filter)
+
+filtered_pop_blood_type <- pop_blood_type %>%
+  filter(Country %in% country_filter)
+
+#class check
+filtered_tidy_blood_type$Country <- as.factor(filtered_tidy_blood_type$Country)
+filtered_tidy_blood_type$Blood_Type <- as.factor(filtered_tidy_blood_type$Blood_Type)
+filtered_pop_blood_type$Country <- as.factor(filtered_pop_blood_type$Country)
+```
+
+## Blood type distribution by country
+
+This is a barplot showing the ABO distributions in the selected countries.
+In this case I am hiding the related code. You can only see the plot.
+
+```{r blood type distribution by country, echo=FALSE}
+filtered_tidy_blood_type %>%
+  ggplot(aes(Country, Percentage, col = Country)) +
+  geom_bar(stat = "identity", width = 0.5) +
+  facet_grid(~Blood_Type) +
+  theme(axis.text = element_text(angle = 90, hjust = 1), legend.position = "none") +
+  xlab("") +
+  ylab("% of population") +
+  ggtitle("ABO distribution in Japan, Russia and the United Kingdom")
+```
